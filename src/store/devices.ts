@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import { Ref, computed, ref, shallowRef } from "vue"
+import { Ref, ref, shallowRef } from "vue"
 import { Tree, Group, DeviceItem } from "../types"
 
 function toTree(parent : Tree, groupArray : Group[], itemArray : DeviceItem[]) {
