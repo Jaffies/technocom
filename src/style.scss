@@ -21,6 +21,10 @@ $borderradius : 8px;
   -moz-osx-font-smoothing: grayscale;
 }
 
+input {
+  accent-color: $maincolor;
+}
+
 select {
   margin : 10px;
   width: calc(100% - 20px);

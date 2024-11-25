@@ -12,9 +12,14 @@
     "@vue/typescript-plugin": "^2.1.10",
     "@vuedx/typescript-plugin-vue": "^0.7.6",
     "axios": "^1.7.7",
+    "axios-queue-js": "^1.1.6",
+    "ol": "^10.2.1",
+    "ol-contextmenu": "^5.5.0",
+    "ol-ext": "^4.0.24",
     "pinia": "^2.2.6",
     "vls": "^0.8.5",
-    "vue": "^3.5.12"
+    "vue": "^3.5.12",
+    "vue3-openlayers": "^11.2.1"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.1.4",

@@ -1,37 +1,58 @@
 <script setup lang="ts">
+import { Tree } from '../types';
 
-interface TreeDataObject {
-    checked : boolean,
-    name : string,
-    id : string
-}
+const props = defineProps<{
+    data ?: Tree,
+    // geozoneTree ?: GeozoneTree
+}>()
 
-type TreeData = Array<TreeData | TreeDataObject>
-
-const {data}  = defineProps({
-    data : Array<TreeData | TreeDataObject>
-})
 </script>
 
 <template>
-    <div v-if="data && data.length > 0">
+    <div v-if="props.data && (props.data.childrenGroups.length > 0 || props.data.childrenItems.length > 0)">
         <ul>
-            <li v-for="(i, index) in data" :key="index">
-                <div v-if="Array.isArray(i)">
-                    <TreeView :data="i"></TreeView>
+            <details open v-for="group in props.data.childrenGroups">
+                <summary>
+                    {{ group.Name }}
+                </summary>
+                <div>
+                    <TreeView :data="group"></TreeView>
                 </div>
-                <div v-else>
-                    <div>
-                        {{ i.name }}
-                    </div>
-
-                    <input type="checkbox" :name="i.id"></input>
-                    <label :for="i.id">
-                        {{ i.name }}
-                    </label>
+            </details>
+            <li v-for="item in props.data.childrenItems" class="item">
+                <div class="container">
+                    <img :src='"https://test.agweb.cloud/Image/Car/" + item.ImageColored' height="32px" width="32px"/>
+                    <div>{{ item.Name }}</div>
                 </div>
 
+                <div class="container">
+                    <input type="checkbox" :name="item.ID" v-model="item.Selected"></input>
+                </div>
             </li>
         </ul>
     </div>
 </template>
+
+<style lang="scss" scoped>
+    .item {
+        border-style: solid;
+        border-radius: 8px;
+        border-color: #4930a5;
+        padding: 8px;
+        margin: 8px;
+
+        display: flex;
+        align-content: start;
+        justify-content: space-between;
+        vertical-align: middle;
+    }
+
+    img {
+        margin-right: 1rem;
+    }
+
+    .container {
+        display: flex;
+        align-items: center;
+    }
+</style>

@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import { Ref, ref, watch } from "vue"
+import { Ref, computed, ref, shallowRef, watch } from "vue"
 import { useCredentialsStore } from "./token"
 import { fetchSchemas } from "../fetcher"
 
@@ -10,10 +10,11 @@ export interface Scheme {
     GroupID : string       
 }
 
+
 export const useSchemasStore = defineStore('schemas', () => {
     const store = useCredentialsStore()
 
-    const schemas : Ref<Scheme[]> = ref([])
+    const schemas = shallowRef<Scheme[]>([]) 
 
     watch(
         () => store.token,
@@ -23,7 +24,9 @@ export const useSchemasStore = defineStore('schemas', () => {
         }
     )
 
-    const selectedScheme : Ref<Scheme | null> = ref(null)
+    const selectedSchemeID : Ref<string | null> = ref(null)
+    
+    const selectedScheme = computed(() => schemas.value.find(x => x.ID == selectedSchemeID.value) || null)
 
-    return {schemas, selectedScheme: selectedScheme}
+    return {schemas, selectedScheme: selectedScheme, selectedSchemeID}
 })
