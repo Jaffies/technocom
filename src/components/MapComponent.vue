@@ -31,11 +31,6 @@
 
     if (!schemasStore.selectedScheme) return
 
-    let stopped = false
-    onWatcherCleanup(() => {
-      stopped = true
-    })
-
     const date = new Date()
     const prevDate = new Date(Date.now() - 1000*3600*24)
 
@@ -47,10 +42,7 @@
       ED : `${date.getFullYear()}${date.getMonth()+1}${date.getDate()}`
      }) as {data : {[key : string] : {Lat : number[], Lng : number[]}[]}}
 
-    if (stopped) return
-
     const newPoints : Point[] = []
-
 
     for (const deviceID in data) {
       const device = data[deviceID]
@@ -78,19 +70,12 @@
 
     if (!schemasStore.selectedScheme) return
 
-    let stopped = false
-
-    onWatcherCleanup(() => {
-      stopped = true
-    })
-
     const {data} = await axios.post('https://test.agweb.cloud/ServiceJSON/GetGeoFences', {
       session : useCredentialsStore().token,
       schemaID : schemasStore.selectedScheme.ID,
       IDs : newValue.map(x => x.ID).join(',')
     }) as {data : {[key: string] : {Lat : number[], Lng : number[], Holes : Array<{Lat : number[], Lng : number[]}> | null}}}
 
-    if (stopped) return
     const newPolygons : number[][][][]  = []
     for (const index in data) {
       const item = data[index]
